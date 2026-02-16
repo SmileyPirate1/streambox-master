@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class StreamBoxService {
+    private static final AtomicInteger streamId = new AtomicInteger(0);
+    private final List<Content> catalog = new ArrayList<>();
 
     public Content addContent(String title, Genre genre, int lengthMinutes, int ageRating) {
-        // bevidst “forkert” og uden validering: så tests fejler
-        return new Content(0, title, genre, lengthMinutes, ageRating);
+        // Lavet en AtomicInteger der automatisk øger talet vær gang den bliver brugt og sat ind på id af Content
+        Content newContent = new Content(streamId.incrementAndGet(), title, genre, lengthMinutes, ageRating);
+        // Tilføjer newContent til catalog
+        catalog.add(newContent);
+        return newContent;
     }
 
     public List<Content> getCatalog() {
-        // bevidst tomt katalog: så tests fejler
-        return Collections.emptyList();
+        // returner catalog fra private List<Content>
+        return catalog;
     }
 
     public Optional<Content> findById(int id) {
