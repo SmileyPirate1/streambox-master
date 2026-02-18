@@ -43,7 +43,7 @@ public class Content {
         return views;
     }
 
-    public void incrementViews() {
-        // bevidst tomt: så tests kan fejle
+    public void setViews(int views) {
+        this.views = views;
     }
 }
